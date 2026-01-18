@@ -15,7 +15,7 @@ A production-ready full-stack web application for managing personal and shared w
 ## Tech Stack
 
 ### Backend
-- Django 5.0.1
+- Django 5.1.14
 - Django REST Framework 3.14.0
 - Simple JWT for authentication
 - PostgreSQL / SQLite
