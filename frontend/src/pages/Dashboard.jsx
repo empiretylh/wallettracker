@@ -74,7 +74,7 @@ const Dashboard = () => {
     <>
       <div className="dashboard-container">
         <header className="dashboard-header">
-        <h1>Wallet Tracker</h1>
+        <h1>💖 Wallet Tracker 💖</h1>
         <div className="header-actions">
           <button onClick={() => navigate('/profile')} className="btn-secondary">
             👤 Profile
@@ -87,7 +87,7 @@ const Dashboard = () => {
 
       <div className="dashboard-content">
         <div className="dashboard-title-row">
-          <h2>My Wallets</h2>
+          <h2>✨ My Wallets ✨</h2>
           <button
             onClick={() => setShowCreateForm(!showCreateForm)}
             className="btn-primary"

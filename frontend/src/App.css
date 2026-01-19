@@ -6,7 +6,8 @@
 }
 
 body {
-  background: var(--color-bg);
+  background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
+  background-attachment: fixed;
   color: var(--color-text);
 }
 
@@ -17,7 +18,9 @@ body {
   align-items: center;
   justify-content: center;
   padding: 32px;
-  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
+  position: relative;
+  overflow: hidden;
 }
 
 .auth-card {
@@ -26,6 +29,7 @@ body {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   width: min(520px, 100%);
+  border: 2px solid rgba(255, 77, 109, 0.2);
 }
 
 .auth-card h1 {
@@ -33,6 +37,8 @@ body {
   color: var(--color-text);
   text-align: center;
   font-weight: 700;
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.5rem;
 }
 
 .auth-link {
@@ -103,7 +109,7 @@ body {
 .form-group textarea:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+  box-shadow: 0 0 0 3px rgba(255, 135, 160, 0.25);
 }
 
 /* Buttons */
@@ -153,7 +159,7 @@ button:hover:not(:disabled) {
 }
 
 .btn-back:hover {
-  background: rgba(79, 70, 229, 0.08);
+  background: rgba(255, 135, 160, 0.15);
 }
 
 .btn-small {
@@ -256,7 +262,7 @@ button:hover:not(:disabled) {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  background: linear-gradient(135deg, #ff87a0 0%, #ff6b8a 100%);
   color: white;
   display: flex;
   align-items: center;
@@ -348,7 +354,7 @@ button:hover:not(:disabled) {
 .wallet-card:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-md);
-  border-color: rgba(79, 70, 229, 0.35);
+  border-color: rgba(255, 77, 109, 0.5);
 }
 
 .wallet-card h3 {
@@ -812,4 +818,55 @@ button:hover:not(:disabled) {
   .form-actions {
     flex-direction: column;
   }
+}
+
+/* Heart animations and cute elements */
+.heart-decoration {
+  position: fixed;
+  color: rgba(255, 77, 109, 0.6);
+  animation: float 4s infinite linear;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(100vh) scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-10vh) scale(1.5) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Pulsing heart effect for buttons */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '❤️';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 20px;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover::before {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 0.3;
+}
+
+/* Romantic titles */
+h1, h2 {
+  font-family: 'Dancing Script', cursive;
+  color: var(--heart-red);
 }
