@@ -14,6 +14,8 @@ const WalletDetail = () => {
   const [showShareInfo, setShowShareInfo] = useState(false);
   const [inviteData, setInviteData] = useState({ user_id: '', role: 'VIEWER' });
   const [successMessage, setSuccessMessage] = useState('');
+  
+  const MESSAGE_TIMEOUT = 3000;
 
   useEffect(() => {
     fetchWalletAndTransactions();
@@ -65,14 +67,11 @@ const WalletDetail = () => {
     const shareText = `Wallet ID: ${wallet.id}\nWallet Name: ${wallet.name}\nOwner: ${wallet.owner.username}`;
     navigator.clipboard.writeText(shareText);
     setSuccessMessage('Wallet info copied to clipboard!');
-    setTimeout(() => setSuccessMessage(''), 3000);
+    setTimeout(() => setSuccessMessage(''), MESSAGE_TIMEOUT);
   };
 
   if (loading) return <div className="loading">Loading...</div>;
   if (!wallet) return <div className="error-message">Wallet not found</div>;
-
-  // Check if current user is owner
-  const isOwner = wallet.owner && wallet.owner.id === wallet.members?.find(m => m.role === 'OWNER')?.user?.id;
 
   return (
     <div className="wallet-detail-container">
@@ -121,17 +120,15 @@ const WalletDetail = () => {
           >
             📤 Share Wallet Info
           </button>
-          {isOwner && (
-            <button
-              onClick={() => {
-                setShowInviteForm(!showInviteForm);
-                setShowShareInfo(false);
-              }}
-              className="btn-primary"
-            >
-              ➕ Invite User
-            </button>
-          )}
+          <button
+            onClick={() => {
+              setShowInviteForm(!showInviteForm);
+              setShowShareInfo(false);
+            }}
+            className="btn-primary"
+          >
+            ➕ Invite User
+          </button>
         </div>
       )}
 
@@ -159,7 +156,7 @@ const WalletDetail = () => {
             <div className="form-group">
               <label htmlFor="user_id">User ID</label>
               <input
-                type="number"
+                type="text"
                 id="user_id"
                 value={inviteData.user_id}
                 onChange={(e) =>
