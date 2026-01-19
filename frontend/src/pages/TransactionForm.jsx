@@ -179,211 +179,203 @@ const TransactionForm = () => {
             </select>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="category">Category *</label>
-            <input
-              type="text"
-              id="category"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              placeholder="e.g., Food, Salary, Entertainment"
-              required
-            />
-          </div>
+          <div className="form-group" style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+            <label htmlFor="category" style={{ minWidth: 110, marginTop: 6 }}>Category *</label>
+            <div style={{ flex: 1 }}>
+              <input
+                type="text"
+                id="category"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                placeholder="e.g., Food, Salary, Entertainment"
+                required
+                style={{ width: '100%', marginBottom: 8 }}
+              />
 
-          <div className="form-group">
-            <label>Quick Categories</label>
-            <div
-              className="suggestion-list"
-              style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '8px' }}
-            >
-              {suggestions.map((s, idx) => (
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+                {suggestions.map((s, idx) => (
+                  <button
+                    type="button"
+                    key={idx}
+                    className="suggestion-button"
+                    onClick={() => handleSuggestionClick(s)}
+                    style={{ padding: '6px 10px', borderRadius: 6 }}
+                  >
+                    {s}
+                  </button>
+                ))}
+
                 <button
                   type="button"
-                  key={idx}
-                  className="suggestion-button"
-                  onClick={() => handleSuggestionClick(s)}
-                  style={{ padding: '6px 10px', borderRadius: 6 }}
+                  onClick={() => setShowAddModal(true)}
+                  className="btn-secondary"
+                  style={{ marginLeft: 6 }}
                 >
-                  {s}
+                  Add
                 </button>
-              ))}
-            </div>
+              </div>
 
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button
-                type="button"
-                onClick={() => setShowAddModal(true)}
-                className="btn-secondary"
-              >
-                Add
-              </button>
-            </div>
-
-            {showAddModal && (
-              <div
-                className="modal-overlay"
-                style={{
-                  position: 'fixed',
-                  left: 0,
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  background: 'rgba(0,0,0,0.4)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  zIndex: 9999,
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Escape') setShowAddModal(false);
-                }}
-              >
+              {showAddModal && (
                 <div
-                  className="modal"
-                  role="dialog"
-                  aria-modal="true"
-                  style={{ background: '#fff', padding: 20, borderRadius: 8, width: 320 }}
+                  className="modal-overlay"
+                  style={{
+                    position: 'fixed',
+                    left: 0,
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'rgba(0,0,0,0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 9999,
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') setShowAddModal(false);
+                  }}
                 >
-                  <h3 style={{ marginTop: 0 }}>Add Quick Category</h3>
-                  <input
-                    type="text"
-                    autoFocus
-                    value={newSuggestion}
-                    onChange={(e) => setNewSuggestion(e.target.value)}
-                    placeholder="e.g., Coffee"
-                    style={{ width: '100%', padding: '8px', marginBottom: 12 }}
-                  />
-                  <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowAddModal(false);
-                        setNewSuggestion('');
-                      }}
-                      className="btn-secondary"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        handleAddSuggestion();
-                        setShowAddModal(false);
-                      }}
-                      className="btn-primary"
-                    >
-                      Save
-                    </button>
+                  <div
+                    className="modal"
+                    role="dialog"
+                    aria-modal="true"
+                    style={{ background: '#fff', padding: 20, borderRadius: 8, width: 320 }}
+                  >
+                    <h3 style={{ marginTop: 0 }}>Add Quick Category</h3>
+                    <input
+                      type="text"
+                      autoFocus
+                      value={newSuggestion}
+                      onChange={(e) => setNewSuggestion(e.target.value)}
+                      placeholder="e.g., Coffee"
+                      style={{ width: '100%', padding: '8px', marginBottom: 12 }}
+                    />
+                    <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowAddModal(false);
+                          setNewSuggestion('');
+                        }}
+                        className="btn-secondary"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleAddSuggestion();
+                          setShowAddModal(false);
+                        }}
+                        className="btn-primary"
+                      >
+                        Save
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="amount">Amount *</label>
-            <input
-              type="number"
-              id="amount"
-              name="amount"
-              value={formData.amount}
-              onChange={handleChange}
-              step="0.01"
-              min="0.01"
-              required
-            />
-          </div>
+          <div className="form-group" style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+            <label htmlFor="amount" style={{ minWidth: 110, marginTop: 6 }}>Amount *</label>
+            <div style={{ flex: 1 }}>
+              <input
+                type="number"
+                id="amount"
+                name="amount"
+                value={formData.amount}
+                onChange={handleChange}
+                step="0.01"
+                min="0.01"
+                required
+                style={{ width: '100%', marginBottom: 8 }}
+              />
 
-          <div className="form-group">
-            <label>Quick Amounts</label>
-            <div
-              className="suggestion-list"
-              style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '8px' }}
-            >
-              {amountSuggestions.map((s, idx) => (
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+                {amountSuggestions.map((s, idx) => (
+                  <button
+                    type="button"
+                    key={idx}
+                    className="suggestion-button"
+                    onClick={() => handleAmountSuggestionClick(s)}
+                    style={{ padding: '6px 10px', borderRadius: 6 }}
+                  >
+                    {s}
+                  </button>
+                ))}
+
                 <button
                   type="button"
-                  key={idx}
-                  className="suggestion-button"
-                  onClick={() => handleAmountSuggestionClick(s)}
-                  style={{ padding: '6px 10px', borderRadius: 6 }}
+                  onClick={() => setShowAddAmountModal(true)}
+                  className="btn-secondary"
+                  style={{ marginLeft: 6 }}
                 >
-                  {s}
+                  Add
                 </button>
-              ))}
-            </div>
+              </div>
 
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button
-                type="button"
-                onClick={() => setShowAddAmountModal(true)}
-                className="btn-secondary"
-              >
-                Add
-              </button>
-            </div>
-
-            {showAddAmountModal && (
-              <div
-                className="modal-overlay"
-                style={{
-                  position: 'fixed',
-                  left: 0,
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  background: 'rgba(0,0,0,0.4)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  zIndex: 9999,
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Escape') setShowAddAmountModal(false);
-                }}
-              >
+              {showAddAmountModal && (
                 <div
-                  className="modal"
-                  role="dialog"
-                  aria-modal="true"
-                  style={{ background: '#fff', padding: 20, borderRadius: 8, width: 320 }}
+                  className="modal-overlay"
+                  style={{
+                    position: 'fixed',
+                    left: 0,
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'rgba(0,0,0,0.4)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    zIndex: 9999,
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') setShowAddAmountModal(false);
+                  }}
                 >
-                  <h3 style={{ marginTop: 0 }}>Add Quick Amount</h3>
-                  <input
-                    type="number"
-                    autoFocus
-                    value={newAmountSuggestion}
-                    onChange={(e) => setNewAmountSuggestion(e.target.value)}
-                    placeholder="e.g., 1000"
-                    style={{ width: '100%', padding: '8px', marginBottom: 12 }}
-                  />
-                  <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowAddAmountModal(false);
-                        setNewAmountSuggestion('');
-                      }}
-                      className="btn-secondary"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        handleAddAmountSuggestion();
-                        setShowAddAmountModal(false);
-                      }}
-                      className="btn-primary"
-                    >
-                      Save
-                    </button>
+                  <div
+                    className="modal"
+                    role="dialog"
+                    aria-modal="true"
+                    style={{ background: '#fff', padding: 20, borderRadius: 8, width: 320 }}
+                  >
+                    <h3 style={{ marginTop: 0 }}>Add Quick Amount</h3>
+                    <input
+                      type="number"
+                      autoFocus
+                      value={newAmountSuggestion}
+                      onChange={(e) => setNewAmountSuggestion(e.target.value)}
+                      placeholder="e.g., 1000"
+                      style={{ width: '100%', padding: '8px', marginBottom: 12 }}
+                    />
+                    <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowAddAmountModal(false);
+                          setNewAmountSuggestion('');
+                        }}
+                        className="btn-secondary"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleAddAmountSuggestion();
+                          setShowAddAmountModal(false);
+                        }}
+                        className="btn-primary"
+                      >
+                        Save
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           <div className="form-group">
