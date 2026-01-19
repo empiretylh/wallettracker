@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import walletService from '../services/walletService';
 import transactionService from '../services/transactionService';
+import authService from '../services/authService';
+import { formatMMK } from '../utils/currency';
 
 const WalletDetail = () => {
   const { id } = useParams();
@@ -14,12 +16,42 @@ const WalletDetail = () => {
   const [showShareInfo, setShowShareInfo] = useState(false);
   const [inviteData, setInviteData] = useState({ user_id: '', role: 'VIEWER' });
   const [successMessage, setSuccessMessage] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
   
   const MESSAGE_TIMEOUT = 3000;
 
   useEffect(() => {
     fetchWalletAndTransactions();
   }, [id]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await authService.getCurrentUser();
+        setCurrentUser(user);
+      } catch (err) {
+        // ignore
+      }
+    };
+    fetchUser();
+  }, []);
+  const handleConvertToShared = async () => {
+    if (!wallet) return;
+    setError('');
+    try {
+      await walletService.updateWallet(wallet.id, {
+        name: wallet.name,
+        is_shared: true,
+      });
+      setSuccessMessage('Wallet converted to a shared wallet');
+      fetchWalletAndTransactions();
+      setTimeout(() => setSuccessMessage(''), MESSAGE_TIMEOUT);
+    } catch (err) {
+      setError('Failed to update wallet type');
+    }
+  };
+
+  const isOwner = currentUser && wallet && wallet.owner.id === currentUser.id;
 
   const fetchWalletAndTransactions = async () => {
     try {
@@ -81,6 +113,11 @@ const WalletDetail = () => {
         </button>
         <h1>{wallet.name}</h1>
         <div className="header-actions">
+          {!wallet.is_shared && isOwner && (
+            <button onClick={handleConvertToShared} className="btn-secondary">
+              Make Shared
+            </button>
+          )}
           <button
             onClick={() => navigate(`/wallets/${id}/transaction/new`)}
             className="btn-primary"
@@ -93,7 +130,7 @@ const WalletDetail = () => {
       <div className="wallet-info">
         <div className="info-card">
           <h3>Balance</h3>
-          <p className="balance-amount">${Number(wallet.balance).toFixed(2)}</p>
+          <p className="balance-amount">{formatMMK(wallet.balance)}</p>
         </div>
         <div className="info-card">
           <h3>Type</h3>
@@ -249,8 +286,7 @@ const WalletDetail = () => {
                       transaction.type === 'INCOME' ? 'income' : 'expense'
                     }`}
                   >
-                    {transaction.type === 'INCOME' ? '+' : '-'}$
-                    {Number(transaction.amount).toFixed(2)}
+                    {transaction.type === 'INCOME' ? '+' : '-'} {formatMMK(transaction.amount)}
                   </span>
                   <button
                     onClick={() =>

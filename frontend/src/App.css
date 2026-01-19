@@ -58,6 +58,34 @@ body {
   font-size: 14px;
 }
 
+.form-group.inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group.inline label {
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+/* Prevent inputs inside inline form-group from taking full width */
+.form-group.inline input,
+.form-group.inline select,
+.form-group.inline textarea {
+  width: auto;
+}
+
+.form-group.inline input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  flex: none;
+}
+
+.form-group.inline label {
+  margin-left: 6px;
+}
+
 .form-group input,
 .form-group select,
 .form-group textarea {

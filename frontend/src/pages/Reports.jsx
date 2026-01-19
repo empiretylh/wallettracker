@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import transactionService from '../services/transactionService';
+import { formatMMK } from '../utils/currency';
 
 const Reports = () => {
   const { id: walletId } = useParams();
@@ -95,15 +96,15 @@ const Reports = () => {
           <div className="summary-cards">
             <div className="summary-card income">
               <h3>Total Income</h3>
-              <p className="amount">${Number(report.totals.income).toFixed(2)}</p>
+              <p className="amount">{formatMMK(report.totals.income)}</p>
             </div>
             <div className="summary-card expense">
               <h3>Total Expense</h3>
-              <p className="amount">${Number(report.totals.expense).toFixed(2)}</p>
+              <p className="amount">{formatMMK(report.totals.expense)}</p>
             </div>
             <div className="summary-card balance">
               <h3>Net Balance</h3>
-              <p className="amount">${Number(report.totals.balance).toFixed(2)}</p>
+              <p className="amount">{formatMMK(report.totals.balance)}</p>
             </div>
           </div>
 
@@ -123,7 +124,7 @@ const Reports = () => {
                     </div>
                     <div className="category-stats">
                       <span className="category-amount">
-                        ${Number(item.total).toFixed(2)}
+                        {formatMMK(item.total)}
                       </span>
                       <span className="category-count">
                         {item.count} transaction{item.count !== 1 ? 's' : ''}

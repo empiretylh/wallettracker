@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import walletService from '../services/walletService';
+import { formatMMK } from '../utils/currency';
 
 const Dashboard = () => {
   const [wallets, setWallets] = useState([]);
@@ -14,6 +15,8 @@ const Dashboard = () => {
   });
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [walletToDelete, setWalletToDelete] = useState(null);
 
   useEffect(() => {
     fetchWallets();
@@ -47,11 +50,30 @@ const Dashboard = () => {
     navigate('/login');
   };
 
+  const openDeleteModal = (e, wallet) => {
+    e.stopPropagation();
+    setWalletToDelete(wallet);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!walletToDelete) return;
+    try {
+      await walletService.deleteWallet(walletToDelete.id);
+      setShowDeleteModal(false);
+      setWalletToDelete(null);
+      fetchWallets();
+    } catch (err) {
+      setError('Failed to delete wallet');
+    }
+  };
+
   if (loading) return <div className="loading">Loading...</div>;
 
   return (
-    <div className="dashboard-container">
-      <header className="dashboard-header">
+    <>
+      <div className="dashboard-container">
+        <header className="dashboard-header">
         <h1>Wallet Tracker</h1>
         <div className="header-actions">
           <button onClick={() => navigate('/profile')} className="btn-secondary">
@@ -92,17 +114,16 @@ const Dashboard = () => {
                   required
                 />
               </div>
-              <div className="form-group">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={newWallet.is_shared}
-                    onChange={(e) =>
-                      setNewWallet({ ...newWallet, is_shared: e.target.checked })
-                    }
-                  />
-                  Shared Wallet
-                </label>
+              <div className="form-group inline">
+                <input
+                  id="is_shared"
+                  type="checkbox"
+                  checked={newWallet.is_shared}
+                  onChange={(e) =>
+                    setNewWallet({ ...newWallet, is_shared: e.target.checked })
+                  }
+                />
+                <label htmlFor="is_shared">Shared Wallet</label>
               </div>
               <button type="submit" className="btn-primary">
                 Create
@@ -120,13 +141,22 @@ const Dashboard = () => {
                 key={wallet.id}
                 className="wallet-card"
                 onClick={() => navigate(`/wallets/${wallet.id}`)}
+                style={{ position: 'relative' }}
               >
+                <button
+                  type="button"
+                  onClick={(e) => openDeleteModal(e, wallet)}
+                  className="btn-danger"
+                  style={{ position: 'absolute', right: 12, top: 12, padding: '6px 8px', fontSize: 12 }}
+                >
+                  Delete
+                </button>
                 <h3>{wallet.name}</h3>
                 <p className="wallet-type">
                   {wallet.is_shared ? 'Shared' : 'Personal'}
                 </p>
                 <p className="wallet-balance">
-                  Balance: ${Number(wallet.balance).toFixed(2)}
+                  Balance: {formatMMK(wallet.balance)}
                 </p>
                 <p className="wallet-owner">Owner: {wallet.owner.username}</p>
               </div>
@@ -134,7 +164,54 @@ const Dashboard = () => {
           )}
         </div>
       </div>
-    </div>
+      </div>
+
+      {showDeleteModal && (
+        <div
+          className="modal-overlay"
+          style={{
+            position: 'fixed',
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.4)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999,
+          }}
+        >
+          <div
+            className="modal"
+            role="dialog"
+            aria-modal="true"
+            style={{ background: '#fff', padding: 20, borderRadius: 8, width: 360 }}
+          >
+            <h3 style={{ marginTop: 0 }}>Delete Wallet</h3>
+            <p>
+              Are you sure you want to delete <strong>{walletToDelete?.name}</strong>? This
+              action cannot be undone.
+            </p>
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 12 }}>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowDeleteModal(false);
+                  setWalletToDelete(null);
+                }}
+                className="btn-secondary"
+              >
+                Cancel
+              </button>
+              <button type="button" onClick={confirmDelete} className="btn-danger">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
