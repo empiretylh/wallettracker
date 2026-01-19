@@ -167,7 +167,7 @@ SIMPLE_JWT = {
 CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=True, cast=bool)
 CORS_ALLOWED_ORIGINS = config(
     'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:5173,http://localhost:3000,https://wallet-tracker.netlify.app'
+    default='http://localhost:5173,http://localhost:3000,https://wallet-tracker.netlify.app,https://wallet-expense-tracker.netlify.app'
 ).split(',')
 
     
