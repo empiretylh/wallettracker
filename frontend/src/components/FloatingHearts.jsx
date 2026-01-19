@@ -17,6 +17,11 @@ const FloatingHearts = () => {
         if (document.body.contains(heart)) {
           heart.remove();
         }
+        // Remove this timeout from the array
+        const index = timeoutsRef.current.indexOf(timeoutId);
+        if (index > -1) {
+          timeoutsRef.current.splice(index, 1);
+        }
       }, 5000);
       
       timeoutsRef.current.push(timeoutId);
