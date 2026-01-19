@@ -53,9 +53,14 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <header className="dashboard-header">
         <h1>Wallet Tracker</h1>
-        <button onClick={handleLogout} className="btn-secondary">
-          Logout
-        </button>
+        <div className="header-actions">
+          <button onClick={() => navigate('/profile')} className="btn-secondary">
+            👤 Profile
+          </button>
+          <button onClick={handleLogout} className="btn-secondary">
+            Logout
+          </button>
+        </div>
       </header>
 
       <div className="dashboard-content">

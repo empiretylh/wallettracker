@@ -24,6 +24,11 @@ const authService = {
   isAuthenticated: () => {
     return !!localStorage.getItem('access_token');
   },
+
+  getCurrentUser: async () => {
+    const response = await api.get('/auth/me/');
+    return response.data;
+  },
 };
 
 export default authService;

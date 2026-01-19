@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import WalletDetail from './pages/WalletDetail';
 import TransactionForm from './pages/TransactionForm';
 import Reports from './pages/Reports';
+import Profile from './pages/Profile';
 import './App.css';
 
 function App() {
@@ -21,6 +22,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
               </ProtectedRoute>
             }
           />
