@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection Lost</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ffafbd;
+            --deep-rose: #ffc3a0;
+            --heart-red: #ff4d6d;
+            --text-color: #7a3e3e;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-pink) 0%, var(--deep-rose) 100%);
+            font-family: 'Quicksand', sans-serif;
+            text-align: center;
+            overflow: hidden;
+            color: var(--text-color);
+        }
+
+        .container {
+            padding: 20px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* The Pulsing Heart */
+        .heart-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .heart {
+            background-color: var(--heart-red);
+            display: inline-block;
+            height: 80px;
+            margin: 0 10px;
+            position: relative;
+            top: 0;
+            transform: rotate(-45deg);
+            width: 80px;
+            animation: pulse 1.2s infinite;
+            box-shadow: 0 0 20px rgba(255, 77, 109, 0.4);
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            background-color: var(--heart-red);
+            border-radius: 50%;
+            height: 80px;
+            position: absolute;
+            width: 80px;
+        }
+
+        .heart:before {
+            top: -40px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: 40px;
+            top: 0;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            margin: 20px 0;
+            line-height: 1.2;
+        }
+
+        p {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .love-you {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-top: 10px;
+        }
+
+        /* Button Design */
+        .retry-btn {
+            background-color: white;
+            color: var(--heart-red);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .retry-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: rotate(-45deg) scale(1); }
+            50% { transform: rotate(-45deg) scale(1.1); }
+            100% { transform: rotate(-45deg) scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Floating tiny hearts effect */
+        .small-heart {
+            position: absolute;
+            color: white;
+            opacity: 0.6;
+            animation: float 4s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="heart-container">
+            <div class="heart"></div>
+        </div>
+
+        <h1>Hey baby, it is offline</h1>
+        <p>Please open internet baby</p>
+
+        <button class="retry-btn" onclick="window.location.reload()">Try Again</button>
+
+        <div class="love-you">I love you</div>
+    </div>
+
+    <script>
+        // Add some floating hearts for extra "loveliness"
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.className = 'small-heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createFloatingHeart, 500);
+    </script>
+</body>
+</html>
