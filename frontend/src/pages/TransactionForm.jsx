@@ -36,12 +36,12 @@ const TransactionForm = () => {
       if (stored) {
         setSuggestions(JSON.parse(stored));
       } else {
-        const defaults = ['လစာ', 'မုန့်ဖိုး', 'အသုံးစရိတ်'];
+        const defaults = ['လစာ', 'မုန့်ဖိုး', 'အသုံးစရိတ်', 'Phone Bill'];
         setSuggestions(defaults);
         localStorage.setItem(KEY, JSON.stringify(defaults));
       }
     } catch (e) {
-      setSuggestions(['လစာ', 'မုန့်ဖိုး', 'အသုံးစရိတ်']);
+      setSuggestions(['လစာ', 'မုန့်ဖိုး', 'အသုံးစရိတ်', 'Phone Bill']);
     }
   }, []);
 
@@ -52,12 +52,12 @@ const TransactionForm = () => {
       if (stored) {
         setAmountSuggestions(JSON.parse(stored));
       } else {
-        const defaults = ['1000', '20000', '5000'];
+        const defaults = ['1000', '2500', '3000', '5000', '15000', '20000'];
         setAmountSuggestions(defaults);
         localStorage.setItem(KEY, JSON.stringify(defaults));
       }
     } catch (e) {
-      setAmountSuggestions(['1000', '20000', '5000']);
+      setAmountSuggestions(['1000', '2500','3000', '5000', '15000', '20000']);
     }
   }, []);
 
